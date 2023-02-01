@@ -72,7 +72,7 @@ class FrontendResource extends Resource
                     ->width(width:80)
                     ->height(height:60),
 
-                Tables\Columns\TextColumn::make('excerpt')
+                Tables\Columns\TextColumn::make('excerpt')->searchable()
                     ->extraAttributes(['class' => 'bg-gray-200'])
                     ->limit(50)
                     ->tooltip(function (TextColumn $column): ?string {
