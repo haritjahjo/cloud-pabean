@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser, HasName
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     use HasApiTokens;
     use HasFactory;
@@ -66,8 +67,13 @@ class User extends Authenticatable implements FilamentUser, HasName
         return str_ends_with($this->email, '@example.com'); // && $this->hasVerifiedEmail();
     }
 
-    public function getFilamentName(): string
+    public function getFilamentAvatarUrl(): ?string
     {
-        return "{$this->first_name} {$this->last_name}";
-    }    
+        return $this->avatar_url;
+    }
+
+    // public function getFilamentName(): string
+    // {
+    //     return "{$this->first_name} {$this->last_name}";
+    // }    
 }
