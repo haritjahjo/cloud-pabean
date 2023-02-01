@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FrontendResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\FrontendResource\RelationManagers;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Livewire\TemporaryUploadedFile;
 
 class FrontendResource extends Resource
 {
@@ -30,7 +33,13 @@ class FrontendResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('excerpt')
                     ->maxLength(255),
-                Forms\Components\Toggle::make(name: 'is_visible')->inline(),    
+                Forms\Components\Toggle::make(name: 'is_visible')->inline(),
+                SpatieMediaLibraryFileUpload::make(name:'Frontend Image')
+                    ->image()
+                    ->collection(collection:'frontend')    
+                    ->getUploadedFileNameForStorageUsing(function(TemporaryUploadedFile $file):string{
+                        return (string) str($file->getClientOriginalName())->prepend('front-');
+                    })
             ]);
     }
 
@@ -56,6 +65,12 @@ class FrontendResource extends Resource
                     ->label(label:'Visible?')
                     ->trueIcon('heroicon-o-badge-check')
                     ->falseIcon('heroicon-o-x-circle'),
+                
+                SpatieMediaLibraryImageColumn::make(name: 'Frontend Image')
+                    ->collection(collection:'frontend')
+                    ->conversion(conversion:'front')
+                    ->width(width:80)
+                    ->height(height:60),
 
                 Tables\Columns\TextColumn::make('excerpt')
                     ->extraAttributes(['class' => 'bg-gray-200'])
