@@ -34,7 +34,7 @@ class FrontendResource extends Resource
                 Forms\Components\TextInput::make('excerpt')
                     ->maxLength(255),
                 Forms\Components\Toggle::make(name: 'is_visible')->inline(),
-                SpatieMediaLibraryFileUpload::make(name:'Frontend Image')
+                SpatieMediaLibraryFileUpload::make(name:'file_name')
                     ->image()
                     ->collection(collection:'frontend')    
                     ->getUploadedFileNameForStorageUsing(function(TemporaryUploadedFile $file):string{
