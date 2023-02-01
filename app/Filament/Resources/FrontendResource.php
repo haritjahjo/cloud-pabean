@@ -66,7 +66,7 @@ class FrontendResource extends Resource
                     ->trueIcon('heroicon-o-badge-check')
                     ->falseIcon('heroicon-o-x-circle'),
                 
-                SpatieMediaLibraryImageColumn::make(name: 'Frontend Image')
+                SpatieMediaLibraryImageColumn::make(name: 'file_name')->label(label:'Frontend Image')
                     ->collection(collection:'frontend')
                     ->conversion(conversion:'front')
                     ->width(width:80)
