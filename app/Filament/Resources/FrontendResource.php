@@ -8,6 +8,7 @@ use App\Models\Frontend;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FrontendResource\Pages;
@@ -29,6 +30,7 @@ class FrontendResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('excerpt')
                     ->maxLength(255),
+                Forms\Components\Toggle::make(name: 'is_visible')->inline(),    
             ]);
     }
 
@@ -48,6 +50,13 @@ class FrontendResource extends Resource
                         // Only render the tooltip if the column contents exceeds the length limit.
                         return $state;
                     }),
+
+                IconColumn::make('is_visible')
+                    ->boolean()
+                    ->label(label:'Visible?')
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle'),
+
                 Tables\Columns\TextColumn::make('excerpt')
                     ->extraAttributes(['class' => 'bg-gray-200'])
                     ->limit(50)
@@ -61,10 +70,9 @@ class FrontendResource extends Resource
                         // Only render the tooltip if the column contents exceeds the length limit.
                         return $state;
                     }),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()->dateTime('d-m-Y H:i'),
+
             ])
             ->filters([
                 //

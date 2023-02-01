@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Frontend extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'excerpt'];
+    protected $fillable = ['title', 'excerpt', 'is_visible'];
 }
