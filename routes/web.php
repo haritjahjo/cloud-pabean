@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Models\Frontend;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('add-media-to-library', function(){
+//     Frontend::create()
+//         ->addMedia(storage_path('front-about-gp.jpg'))
+//         ->toMediaCollection();
+// });
 
 Route::get('/', function () {
     return view('pages.welcome');

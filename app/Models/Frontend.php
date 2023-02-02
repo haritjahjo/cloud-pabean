@@ -29,4 +29,9 @@ class Frontend extends Model implements HasMedia
             ->crop('crop-center', 300, 300)
             ->nonQueued();
     }
+
+    // public static function last()
+    // {
+    //     return static::all()->last();
+    // }
 }
