@@ -12,11 +12,13 @@ use Filament\Tables\Filters\Filter;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Widgets\StatsOverviewWidget;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TopicResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationGroup;
 use App\Filament\Resources\TopicResource\RelationManagers;
+use App\Filament\Resources\TopicResource\Widgets\StatsOverview;
 
 class TopicResource extends Resource
 {
@@ -139,4 +141,12 @@ class TopicResource extends Resource
             'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
     }    
+
+    public static function getWidgets(): array
+    {
+        return [
+            StatsOverview::class,
+        ];
+    }
+
 }

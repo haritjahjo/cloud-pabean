@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TopicResource\Pages;
 
 use App\Filament\Resources\TopicResource;
+use App\Filament\Resources\TopicResource\Widgets\StatsOverview;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -14,6 +15,13 @@ class ListTopics extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            StatsOverview::class,
         ];
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\TopicResource\Pages;
 
-use App\Filament\Resources\TopicResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\TopicResource;
+use App\Filament\Resources\TopicResource\Widgets\StatsOverview;
 
 class EditTopic extends EditRecord
 {
@@ -21,4 +22,11 @@ class EditTopic extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    // protected function getHeaderWidgets(): array
+    // {
+    //     return [
+    //         StatsOverview::class,
+    //     ];
+    // }
 }
