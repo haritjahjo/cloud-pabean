@@ -8,6 +8,7 @@ use App\Models\Question;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\QuestionResource\Pages;
@@ -17,6 +18,7 @@ use App\Filament\Resources\QuestionResource\RelationManagers;
 class QuestionResource extends Resource
 {
     protected static ?string $model = Question::class;
+    protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -83,7 +85,10 @@ class QuestionResource extends Resource
                     ->falseIcon('heroicon-o-x-circle'),
             ])
             ->filters([
-                //
+                Filter::make('Visible')->default()
+                    ->query(fn (Builder $query): Builder => $query->where('is_visible', true)),
+                Filter::make('NotVisible')
+                    ->query(fn (Builder $query): Builder => $query->where('is_visible', false)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

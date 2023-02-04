@@ -8,8 +8,10 @@ use App\Models\Topic;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TopicResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,6 +22,7 @@ class TopicResource extends Resource
 {
     protected static ?string $model = Topic::class;
 
+    protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
 
@@ -86,9 +89,26 @@ class TopicResource extends Resource
                     ->conversion(conversion:'topic')
                     ->width(width:80)
                     ->height(height:60),
+                Tables\Columns\TextColumn::make(name:'tags.name'),
             ])
             ->filters([
-                //
+                SelectFilter::make('tag')->relationship('tags', 'name'),
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from'),
+                        Forms\Components\DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
