@@ -8,6 +8,7 @@ use App\Models\Topic;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TopicResource\Pages;
@@ -40,7 +41,14 @@ class TopicResource extends Resource
                     ->multiple()
                     ->relationship('tags', 'name')
                     ->preload(condition:true)
-                    ->columnSpan(span:12),
+                    ->columnSpan(span:6),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('file_name')
+                    ->image()
+                    ->collection(collection:'topics')    
+                    ->getUploadedFileNameForStorageUsing(function(TemporaryUploadedFile $file):string{
+                        return (string) str($file->getClientOriginalName())->prepend('topic-');
+                    })
+                    ->columnSpan(span:6),
             ]);
     }
 
@@ -73,8 +81,11 @@ class TopicResource extends Resource
                             // Only render the tooltip if the column contents exceeds the length limit.
                             return $state;
                         }),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime('d-m-Y H:i'),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make(name: 'file_name')
+                    ->collection(collection:'topics')
+                    ->conversion(conversion:'topic')
+                    ->width(width:80)
+                    ->height(height:60),
             ])
             ->filters([
                 //
