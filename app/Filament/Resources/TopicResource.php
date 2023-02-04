@@ -12,6 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TopicResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationGroup;
 use App\Filament\Resources\TopicResource\RelationManagers;
 
 class TopicResource extends Resource
@@ -19,6 +20,8 @@ class TopicResource extends Resource
     protected static ?string $model = Topic::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+
 
     public static function form(Form $form): Form
     {
@@ -33,6 +36,11 @@ class TopicResource extends Resource
                     ->columnSpan(span:12)
                     ->required()
                     ->maxLength(65535),
+                Forms\Components\Select::make('tags')
+                    ->multiple()
+                    ->relationship('tags', 'name')
+                    ->preload(condition:true)
+                    ->columnSpan(span:12),
             ]);
     }
 
@@ -75,15 +83,21 @@ class TopicResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     
     public static function getRelations(): array
     {
         return [
-            RelationManagers\QuestionsRelationManager::class,
+            RelationGroup::make('Topics', [
+                RelationManagers\QuestionsRelationManager::class,
+                //RelationManagers\TagsRelationManager::class,
+            ]),
         ];
+        // return [
+        //     RelationManagers\QuestionsRelationManager::class,
+        // ];
     }
     
     public static function getPages(): array

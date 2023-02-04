@@ -12,8 +12,9 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\TagResource\Pages;
+use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\TagResource\RelationManagers;
+use App\Filament\Resources\TagResource\RelationManagers\TopicsRelationManager;
 
 class TagResource extends Resource
 {
@@ -54,14 +55,15 @@ class TagResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     
     public static function getRelations(): array
     {
         return [
-            //
+            TopicsRelationManager::class
+            
         ];
     }
     
